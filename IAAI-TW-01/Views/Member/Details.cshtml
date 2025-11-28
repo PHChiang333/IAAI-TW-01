@@ -1,0 +1,206 @@
+﻿@model IAAI_TW_01.Models.Dto.Member_dbPostDetailDto
+@using MvcPaging
+
+
+
+@{
+    ViewBag.Title = "Details";
+}
+
+@*<h2>Details</h2>*@
+
+
+
+<section id="main-container" class="main-container">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                <div class="sidebar sidebar-right">
+                    <div class="widget">
+                        <h2 class="widget-title"><i class="fa fa-folder-open-o">&nbsp;</i>會員專區</h2>
+                        <ul class="arrow nav nav-tabs nav-stacked">
+                            <li class="active"><a href="@Url.Action("Member_db", "Member")">討論區</a></li>
+                            <br />
+                            <li><a href="@Url.Action("Logout", "Member")">會員登出</a></li>
+                        </ul>
+                    </div>
+                    <!-- Categories end -->
+                </div>
+                <!-- Sidebar end -->
+            </div>
+            <!-- Sidebar Col end -->
+            <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+
+                <h2 class="page-title">討論區</h2>
+                <hr class="botmargin-min">
+                <!-- 內容開始 -->
+
+
+
+                <style>
+                    .entry-header {
+                        background: #3c73b0;
+                        color: white;
+                        padding: 10px 30px;
+                    }
+
+                        .entry-header .entry-title {
+                            color: white;
+                        }
+
+                    .entry-title {
+                    }
+
+                    .post-meta-date {
+                    }
+
+                    .post-content {
+                        border: whitesmoke 1px solid;
+                        margin-bottom: 20px;
+                        box-shadow: rgba(210,210,210,.1) 2px 2px 20px;
+                    }
+
+                    .entry-content {
+                    }
+
+                    .post {
+                        border: whitesmoke 1px solid;
+                        padding: 0;
+                    }
+
+                    .postInfo {
+                        padding: 10px 20px;
+                        background: #eee;
+                        text-align: right;
+                    }
+
+                    .respon {
+                        margin: 20px auto;
+                        display: inline-block;
+                        padding: 3px 8px;
+                        background: #b2b2b2;
+                        color: white;
+                        border-radius: 2px;
+                    }
+
+                    .post-body {
+                        background: #FCFCFC;
+                        padding: 30px;
+                        box-shadow: rgba(210,210,210,.1) 2px 2px 20px;
+                    }
+
+                    .clear {
+                        clear: both;
+                    }
+
+                    .postMan {
+                        font-size: 16px;
+                    }
+                </style>
+
+
+                <div class="post-content">
+                    <div class="entry-header">
+                        <h2 class="entry-title">
+                            @Model.MemberDbPost.Title
+                        </h2>
+                        <span class="postMan"> 發表人:@Model.MemberDbPost.Author</span>
+
+                    </div><!-- header end -->
+                    <div class="postInfo">
+                        <span class="post-meta-date"><i class="fa fa fa-clock-o"></i> @Model.MemberDbPost.CreateAt.ToString("yyyy-MM-dd")</span>
+
+
+                    </div>
+                    <div class="post-body">
+                        <div class="entry-content topmargin-min">
+                            <p>@Html.Raw(Model.MemberDbPost.Content)</p>
+
+                        </div>
+                        <div class="tags-area clearfix">
+
+
+
+                        </div>
+
+                    </div>
+
+
+
+                </div><!-- post-body end -->
+
+                <a class="respon" href="@Url.Action("Member_dbPostReplyCreate", "Member", new { postId = Model.MemberDbPost.Id })">回應文章</a>
+                <div class="clear"></div>
+
+                @{
+                    foreach (var item in Model.MemberDbReplys)
+                    {
+                        <div class="post">
+                            <div class="row">
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <div class="entry-header">
+                                        <div class="post-media post-image postMan">
+                                            回應:@item.Author
+
+                                        </div>
+
+                                    </div>
+                                    <div class="postInfo">
+                                        <span class="post-meta-date"><i class="fa fa fa-clock-o"></i> @item.CreateAt.ToString("yyyy-MM-dd")</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <div class="post-body">
+                                         @Html.Raw(item.Content)
+                                    </div>
+                                    <!-- post-body end -->
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+
+
+
+
+
+
+                <!--分頁開始-->
+                <div class="pager">
+                    <div class="pages">
+                        <div class="pagination">
+                            @Html.Pager(Model.MemberDbReplys.PageSize, Model.MemberDbReplys.PageNumber, Model.MemberDbReplys.TotalItemCount)
+
+                        </div>
+                        <div class="page_boxR"> 資料筆數：@ViewBag.count  　</div>
+                    </div>
+                </div>
+                <!--分頁結束-->
+
+                <div class="post-footer  pull-left">
+                    <a onclick="history.back()" onkeypress="history.back()" class="btn btn-primary">返回列表</a>
+                </div>
+
+                <!-- Content row 1 end -->
+                <!-- 內容結束 -->
+
+                <div class="tags-area clearfix">
+
+                    <div class="share-items pull-right" style="display: none">
+                        <ul class="post-social-icons unstyled">
+                            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                            <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Content Col end -->
+            <!-- 內容結束 -->
+        </div>
+        <!-- Main row end -->
+    </div>
+    <!-- Conatiner end -->
+</section>

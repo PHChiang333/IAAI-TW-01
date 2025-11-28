@@ -1,0 +1,83 @@
+﻿@model IEnumerable<IAAI_TW_01.Models.Supervisor>
+
+@{
+    ViewBag.Title = "Supervisors";
+}
+
+
+<section id="main-container" class="main-container">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+
+                <div class="sidebar sidebar-right">
+                    <div class="widget">
+                        <h2 class="widget-title"><i class="fa fa-folder-open-o">&nbsp;</i>關於我們</h2>
+                        <ul class="arrow nav nav-tabs nav-stacked">
+                            @*<li><a href="/About/Index">協會介紹</a></li>
+                            <li class="active"><a href="/About/Supervisors">理監事</a></li>
+                            <li><a href="/About/Experts">專家介紹</a></li>*@
+
+                            <li ><a href="@Url.Action("Index", "About")">關於我們</a></li>
+                            <li class="active"><a href="@Url.Action("Supervisors", "About")">組織架構</a></li>
+                            <li><a href="@Url.Action("OrgHistories", "About")">沿革</a></li>
+                            <li><a href="@Url.Action("Experts", "About")">專家介紹</a></li>
+
+                        </ul>
+                    </div><!-- Categories end -->
+
+                </div><!-- Sidebar end -->
+            </div><!-- Sidebar Col end -->
+
+            <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+
+                <h2 class="page-title">組織架構</h2>
+                <hr class="botmargin-min">
+
+                <!-- 內容開始 -->
+
+                <h3 class="about-title">第一屆理監事</h3>
+                <table class="table table-striped career-table about-table">
+                    <thead>
+                        <tr>
+                            <th>職別</th>
+                            <th>姓名</th>
+                            <th>性別</th>
+                            <th>職務(經歷)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{ foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@item.PositionName</td>
+                                    <td>@item.Name</td>
+                                    <td>@item.Gender</td>
+                                    <td>@item.ServiceHistory</td>
+                                </tr>
+                            }}
+
+                    </tbody>
+                </table>
+                <!-- Content row 1 end -->
+                <!-- 內容結束 -->
+
+                <div class="tags-area clearfix">
+
+                    <div class="share-items pull-right">
+                        <ul class="post-social-icons unstyled">
+                            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                            <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div><!-- Content Col end -->
+
+
+        </div><!-- Main row end -->
+
+    </div><!-- Conatiner end -->
+</section><!-- Main container end -->

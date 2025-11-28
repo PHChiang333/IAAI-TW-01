@@ -1,0 +1,95 @@
+﻿@model IAAI_TW_01.Models.AdminMember
+
+@{
+    ViewBag.Title = "Details";
+}
+
+
+
+
+<h2>權限管理</h2>
+<h4>管理員編輯</h4>
+
+<div class="content-box-large">
+    <div class="panel-heading">
+        <h4>詳細內容</h4>
+    </div>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-horizontal">
+        <div class="form-group">
+            @Html.LabelFor(model => model.Account, htmlAttributes: new { @class = "col-sm-2 control-label" })
+            <div class="col-sm-10">
+                @Html.DisplayFor(model => model.Account)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.IsTopAccess, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.DisplayFor(model => model.IsTopAccess)
+                    @Html.ValidationMessageFor(model => model.IsTopAccess, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.NewPermission, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="treeView">
+                    @ViewBag.TreeView
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/dist/tree.min.js"></script>
+    <script>
+        // prettier-ignore
+        let data = @Html.Raw(ViewBag.TreeView);
+
+        let tree = new Tree('.treeView', {
+            //data: [{ id: '-1', text: 'root', children: data }],
+            data: data,
+            closeDepth: 5,
+            loaded: function () {
+                this.values = @Html.Raw(Json.Encode(Model.NewPermission.Split(',')));  //預設選擇
+                this.disables = @Html.Raw(Json.Encode(Model.NewPermission.Split(',')))  //不能選擇者
+
+                console.log(this.selectedNodes);
+                console.log(this.values);
+            },
+            onChange: function () {
+                console.log(this.values);
+                $("#NewPermission").val(this.values)
+            }
+        })
+    </script>
+}

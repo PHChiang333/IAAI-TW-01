@@ -1,0 +1,108 @@
+﻿@model MvcPaging.IPagedList<IAAI_TW_01.Models.News>
+@using MvcPaging
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<section id="main-container" class="main-container">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                <div class="sidebar sidebar-right">
+                    <div class="widget">
+                        <h2 class="widget-title"><i class="fa fa-folder-open-o">&nbsp;</i>訊息發佈</h2>
+                        <ul class="arrow nav nav-tabs nav-stacked">
+                            <li class="active"><a href="#">最新消息</a></li>
+                        </ul>
+                    </div>
+                    <!-- Categories end -->
+                </div>
+                <!-- Sidebar end -->
+            </div>
+            <!-- Sidebar Col end -->
+            <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+                <h2 class="page-title">最新消息</h2>
+
+                <hr class="botmargin-min">
+                <div class="form-horizontal">
+
+                    @using (Html.BeginForm("Index", "News", FormMethod.Get, new { enctype = "multipart/form-data" }))
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">搜尋標題：</label>
+                            <div class="col-sm-7">
+                                <input type="text" name="keyword" value="@Request["keyword"]" class="form-control input-sm" placeholder="請輸入標題關鍵字" />
+                            </div>
+                            <div class="col-sm-3">
+                                <button type="submit" class="btn btn-primary btn-sm">搜尋</button>
+                            </div>
+                        </div>
+
+                    }
+                </div>
+
+                <hr class="botmargin-min">
+
+                @{ foreach (var item in Model)
+                    {
+                        <div class="post">
+                            <div class="row">
+                                <div class="col-md-3 col-sm-12 col-xs-12">
+                                    <div class="post-media post-image">
+                                        <a href="/News/@item.Id"><img alt="@item.CoverName" src="@item.CoverPath" class="img-responsive"></a>
+                                    </div>
+                                </div>
+                                <div class="col-md-9 col-sm-12 col-xs-12">
+                                    <div class="post-body">
+                                        <div class="entry-header">
+                                            <span class="post-meta-date"><i class="fa fa fa-clock-o"></i>@item.CreateAt</span>
+                                            <h3 class="entry-title">
+                                                <a href="/News/@item.Id">@item.Title</a>
+                                            </h3>
+                                            <p>
+                                                @{
+                                                    var selContent = item.Content;
+                                                    int strLength = 50;
+                                                    var displayContent = selContent.Length > strLength ? selContent.Substring(0, strLength) + "..." : selContent;
+                                                }
+                                                @Html.Raw(displayContent)
+                                            </p>
+                                        </div>
+                                        <!-- header end -->
+                                        <div class="post-footer">
+                                            <a href="/News/@item.Id" class="btn btn-primary">more</a>
+                                        </div>
+                                    </div>
+                                    <!-- post-body end -->
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 1st post end -->
+
+                    }
+                }
+
+                <!--分頁開始-->
+                <div class="pager">
+                    <div class="pages">
+                        <div class="pagination">
+                            @Html.Pager(Model.PageSize, Model.PageNumber, Model.TotalItemCount)
+
+                        </div>
+                        <div class="page_boxR"> 資料筆數：@ViewBag.count  　</div>
+                    </div>
+                </div>
+                <!--分頁結束-->
+
+            </div>
+        </div>
+        <!-- Content Col end -->
+    </div>
+    <!-- Main row end -->
+    </div>
+    <!-- Conatiner end -->
+</section>
+

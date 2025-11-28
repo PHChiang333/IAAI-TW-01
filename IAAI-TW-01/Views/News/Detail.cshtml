@@ -1,0 +1,77 @@
+﻿@model IAAI_TW_01.Models.News
+
+
+
+@{
+    ViewBag.Title = "Detail";
+}
+
+
+
+
+<section id="main-container" class="main-container">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+
+                <div class="sidebar sidebar-right">
+                    <div class="widget">
+                        <h2 class="widget-title"><i class="fa fa-folder-open-o">&nbsp;</i>訊息發佈</h2>
+                        <ul class="arrow nav nav-tabs nav-stacked">
+                            <li class="active"><a href="/News">最新消息</a></li>
+
+                        </ul>
+                    </div><!-- Categories end -->
+
+                </div><!-- Sidebar end -->
+            </div><!-- Sidebar Col end -->
+
+            <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+
+                <h2 class="page-title">最新消息</h2>
+                <hr class="botmargin-min">
+
+                <div class="post-content">
+
+                    <div class="post-body">
+                        <div class="entry-header">
+                            <span class="post-meta-date"><i class="fa fa fa-clock-o"></i> 2016-03-28</span>
+                            <h2 class="entry-title">
+                                @Model.Title
+                            </h2>
+                        </div><!-- header end -->
+
+                        <div class="post-media post-image">
+                            <img src="@Model.CoverPath" class="img-responsive" alt="@Model.CoverName">
+                        </div>
+
+                        <div class="entry-content topmargin-min">
+                            @Html.Raw(Model.Content)
+                        </div>
+
+
+
+                        <div class="tags-area clearfix">
+                            <div class="post-footer  pull-left">
+                                <a href="/News" class="btn btn-primary">返回列表</a>
+                            </div>
+
+                            <div class="share-items pull-right">
+                                <ul class="post-social-icons unstyled">
+                                    <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div><!-- post-body end -->
+                </div><!-- post content end -->
+
+            </div><!-- Content Col end -->
+
+        </div><!-- Main row end -->
+
+    </div><!-- Conatiner end -->
+</section><!-- Main container end -->

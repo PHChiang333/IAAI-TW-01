@@ -1,0 +1,61 @@
+﻿@model IAAI_TW_01.Models.Knowlodge
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>知識庫</h2>
+<h3>知識庫</h3>
+
+<div class="content-box-large">
+    <div class="panel-heading">
+        <h4>編輯項目</h4>
+    </div>
+    <div class="panel-body">
+
+        @using (Html.BeginForm("Edit", "Knowlodges", new { id = Model.Id }, FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.Id)
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.FileName, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                <div class="col-md-10">
+                    <span class="form-control">
+                        <a href="@Html.DisplayFor(Model => Model.FilePath)" download="@Html.DisplayFor(Model => Model.FileName)">@Html.DisplayFor(Model => Model.FileName)</a>
+                    </span>
+                </div>
+            </div>
+            <hr />
+            <div class="form-group">
+                <label class="col-sm-2 control-label">新檔案:</label>
+                <div class="col-md-10">
+                    <p for="file">請選擇 5MB 以下檔案</p>
+                    @*@Html.EditorFor(model => model.FilePath, new { htmlAttributes = new { @class = "form-control" } })*@
+                    <input type="file" name="File" />
+                    <p>@ViewBag.ErrorFile</p>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Save" class="btn btn-default" />
+                </div>
+            </div>
+        }
+    </div>
+
+    <div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+
+</div>

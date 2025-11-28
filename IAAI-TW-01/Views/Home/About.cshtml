@@ -1,0 +1,30 @@
+﻿@{
+    ViewBag.Title = "About";
+}
+
+
+<main aria-labelledby="title">
+    <h2 id="title">@ViewBag.Title.</h2>
+    <h3>@ViewBag.Message</h3>
+
+    <p>Use this area to provide additional information.</p>
+
+    <form>
+        <textarea name="editor1" id="editor1" rows="10" cols="80">
+                @*This is my textarea to be replaced with CKEditor 4.*@
+            </textarea>
+
+    </form>
+
+    @section Scripts {
+        <script>
+            $(function () {
+                if (typeof CKEDITOR !== 'undefined') {
+                    CKEDITOR.replace('editor1');
+                } else {
+                    console.error("CKEditor not loaded");
+                }
+            });
+        </script>
+    }
+</main>

@@ -1,0 +1,101 @@
+﻿@model MvcPaging.IPagedList<IAAI_TW_01.Models.MemberDbPost>
+@using MvcPaging
+
+
+@{
+    ViewBag.Title = "Member_db";
+}
+
+@*<h2>Member_db</h2>*@
+
+
+<section id="main-container" class="main-container">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                <div class="sidebar sidebar-right">
+                    <div class="widget">
+                        <h2 class="widget-title"><i class="fa fa-folder-open-o">&nbsp;</i>會員專區</h2>
+                        <ul class="arrow nav nav-tabs nav-stacked">
+                            <li class="active"><a href="@Url.Action("Member_db", "Member")">討論區</a></li>
+                            <br />
+                            <li><a href="@Url.Action("Logout", "Member")">會員登出</a></li>
+                        </ul>
+                    </div>
+                    <!-- Categories end -->
+                </div>
+                <!-- Sidebar end -->
+            </div>
+            <!-- Sidebar Col end -->
+            <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+                <h2 class="page-title">討論區</h2>
+                <hr class="botmargin-min">
+                <!-- 內容開始 -->
+
+                <a class="respon " href="@Url.Action("Member_dbPostCreate", "Member")">張貼文章</a>
+
+                <table class="table table-striped career-table download-table">
+
+                    <thead>
+                        <tr>
+
+                            <th><span class="text-left" style="min-width:100px">標題</span></th>
+                            <th>發表人</th>
+                            <th>最新回覆人</th>
+                            <th>回覆數</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @{
+                            foreach (var item in Model)
+                            {
+                                <tr>
+
+                                    <td><span class="text-left"><a href="@Url.Action("Details", "Member", new { id = item.Id })">@item.Title</a></span></td>
+                                    <td>@item.Author<br>@item.CreateAt.ToString("yyyy-MM-dd")</td>
+                                    <td>
+                                        @if (item.MemberDbReplys.OrderByDescending(r => r.CreateAt).FirstOrDefault() == null)
+                                        {
+                                            <p>無回覆</p><br />
+                                            <p></p>
+                                        }
+                                        else
+                                        {
+                                            @item.MemberDbReplys.OrderByDescending(r => r.CreateAt).FirstOrDefault().Author<br>
+                                            @item.CreateAt.ToString("yyyy-MM-dd")
+
+                                        }
+
+                                    </td>
+                                    <td>
+                                        @item.MemberDbReplys.Count()
+                                    </td>
+                                </tr>
+                            }
+                        }
+
+                    </tbody>
+                </table>
+
+                <!--分頁開始-->
+                <div class="pager">
+                    <div class="pages">
+                        <div class="pagination">
+                            @Html.Pager(Model.PageSize, Model.PageNumber, Model.TotalItemCount)
+
+                        </div>
+                        <div class="page_boxR"> 資料筆數：@ViewBag.count  　</div>
+                    </div>
+                </div>
+                <!--分頁結束-->
+
+            </div>
+            <!-- Content Col end -->
+            <!-- 內容結束 -->
+        </div>
+        <!-- Main row end -->
+    </div>
+    <!-- Conatiner end -->
+</section>
+

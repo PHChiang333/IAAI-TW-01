@@ -1,0 +1,123 @@
+﻿@model IAAI_TW_01.Models.Dto.LoginDto
+
+@{
+    ViewBag.Title = "Member_login";
+}
+
+<section id="main-container" class="main-container">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                <div class="sidebar sidebar-right">
+                    <div class="widget">
+                        <h2 class="widget-title"><i class="fa fa-folder-open-o">&nbsp;</i>會員專區</h2>
+                        <ul class="arrow nav nav-tabs nav-stacked">
+                            <li><a href="@Url.Action("Member_db", "Member")">討論區</a></li>
+
+                            <br />
+                            <li class="active"><a href="@Url.Action("Member_login", "Member")">會員登入</a></liclass="active">
+                            <li><a href="@Url.Action("Member_reg", "Member")">會員註冊</a></li>
+                            <br />
+                            <li><a href="@Url.Action("Logout", "Member")">會員登出</a></li>
+                        </ul>
+                    </div>
+                    <!-- Categories end -->
+                </div>
+                <!-- Sidebar end -->
+            </div>
+            <!-- Sidebar Col end -->
+            <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+                <h2 class="page-title">會員登入</h2>
+                <hr class="botmargin-min">
+                <!-- 內容開始 -->
+
+                @using (Html.BeginForm("Member_login", "Member", FormMethod.Post, new { @class = "form-horizontal comments-form", enctype = "multipart/form-data" }))
+                {
+                    @Html.AntiForgeryToken()
+
+
+                    @*<form class="form-horizontal comments-form" role="form">*@
+                    <h3 class="title-normal">請輸入您的帳號及密碼</h3>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">帳　號：</label>
+                        <div class="col-sm-8">
+
+                            @Html.EditorFor(model => model.Account, new { htmlAttributes = new { @class = "form-control", placeholder = "請輸入帳號", required = "required" } })
+                            @Html.ValidationMessageFor(model => model.Account, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-sm-2">
+                            <span class="alertred"><i class="fa fa-exclamation-circle"></i> 帳號必填</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">密　碼：</label>
+                        <div class="col-sm-8">
+
+                            @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", placeholder = "請輸入密碼", required = "required",Type="password" } })
+                            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-sm-2">
+                            <span class="alertred"><i class="fa fa-exclamation-circle"></i> 密碼必填</span>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button class="btn btn-primary solid blank" type="submit">登 入</button> 
+                            <br />
+                            <p class="@ViewBag.ErrorMessageClass">@ViewBag.ErrorMessage</p>
+                        </div>
+
+                    </div>
+
+                    <hr>
+
+                    <div class="text-left">
+                        <a href="#">忘記密碼？</a> &nbsp;&nbsp;/&nbsp;&nbsp; 
+                        @Html.ActionLink("尚未註冊","Member_reg","Member")
+                    </div>
+
+                }
+
+
+                <div class="tags-area clearfix">
+                    <div class="share-items pull-right">
+                        <ul class="post-social-icons unstyled">
+                            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                            <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- Content Col end -->
+            <!-- 內容結束 -->
+        </div>
+        <!-- Main row end -->
+    </div>
+    <!-- Conatiner end -->
+</section>
+
+@section Scripts {
+    @*表單驗證用*@
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(function () {
+            // 當表單內任何 input blur(失焦)時，馬上驗證那個欄位
+            $('form').on('blur', 'input, textarea', function () {
+                $(this).valid(); // 呼叫 jQuery Validation 的驗證方法
+            });
+
+            // 送出前檢查全部欄位
+            $('form').on('submit', function (e) {
+                if (!$(this).valid()) {
+                    e.preventDefault(); // 防止表單送出
+                    alert('請確認資料');
+                }
+            });
+        });
+    </script>
+
+
+}

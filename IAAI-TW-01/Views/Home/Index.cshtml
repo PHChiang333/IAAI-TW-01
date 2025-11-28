@@ -1,0 +1,176 @@
+﻿@model IAAI_TW_01.Models.Dto.HomeDto
+
+
+@{
+    ViewBag.Title = "Home Page";
+}
+
+
+
+
+
+
+<!-- Carousel -->
+<div id="main-slide" class="carousel slide" data-ride="carousel">
+
+    <!-- Indicators -->
+    <ol class="carousel-indicators visible-lg visible-md">
+        <li data-target="#main-slide" data-slide-to="0" class="active"></li>
+        <li data-target="#main-slide" data-slide-to="1"></li>
+    </ol><!--/ Indicators end-->
+    <!-- Carousel inner -->
+    <div class="carousel-inner">
+        <div class="item active" style="background-image: url(/Theme/Images/slider-main-01.jpg)">
+        </div><!--/ Carousel item end -->
+
+        <div class="item" style="background-image: url(/Theme/images/slider-main-02.jpg)">
+        </div><!--/ Carousel item end -->
+
+    </div><!-- Carousel inner end-->
+    <!-- Controllers -->
+    <a class="left carousel-control" href="#main-slide" data-slide="prev">
+        <span><i class="fa fa-angle-left"></i></span>
+    </a>
+    <a class="right carousel-control" href="#main-slide" data-slide="next">
+        <span><i class="fa fa-angle-right"></i></span>
+    </a>
+
+    <span class="down-arrow-transparent"></span>
+
+</div><!--/ Carousel end -->
+
+
+<section id="news" class="news">
+    <div class="container">
+
+        <div class="row">
+
+            @{
+                foreach (var item in Model.Newss)
+                {
+                    <div class="col-md-3 col-sm-6 col-xs-12">
+                        <div class="latest-post">
+                            <div class="row justify-content-center" style="height:150px;">
+                                <img class="img-responsive " src="@item.CoverPath" alt="@item.CoverName" style="max-height:100%">
+                            </div>
+                            <div class="post-body">
+                                <h4 class="post-title">
+                                    <a href="/News/@item.Id">@item.Title</a>
+                                </h4>
+                                <span class="post-item-date">
+                                    <i class="fa fa-clock-o"></i> @item.CreateAt.ToString("yyyy-MM-dd")
+                                </span>
+                                <div class="post-text">
+                                    <p>
+
+                                        @{
+                                            var rawContent = item.Content;
+                                            var withLineBreaks = rawContent.Replace("<br>", "\n").Replace("<br/>", "\n"); // 替換 <br>
+                                            var plainText = System.Text.RegularExpressions.Regex.Replace(withLineBreaks, "<.*?>", string.Empty);
+                                            var displayContent = plainText.Length > 20 ? plainText.Substring(0, 20) + "..." : plainText;
+                                        }
+                                        @Html.Raw(displayContent.Replace("\n", "<br>"))
+                                    </p>
+                                </div>
+                            </div>
+                            <a href="/News/@item.Id" class="btn btn-primary">More</a>
+                        </div><!-- Latest post end -->
+                    </div><!-- 1st post col end -->
+                }
+            }
+
+
+        </div><!--/ Content row end -->
+    </div><!--/ Container end -->
+</section><!--/ News end -->
+
+<section id="facts" class="facts no-padding">
+    <div class="fact-img">
+        <div class="container">
+            <div class="row ">
+                <div class="col-md-12 fact-text">
+                    <ol>
+                        <li>從事火災調查之科技與學術研究，提昇我國火災調查科技研究水準，並落實研究成果。</li>
+                        <li>舉辦相關學術研討會及活動，提供技術資訊與發展之交流平台，參與並推動火災調查、預防及研究等之國內外交流活動。</li>
+                        <li>發行及出版火災調查、預防及研究等相關科技研究之學術刊物、書籍及媒體等。</li>
+                        <li>從事火災原因研究、危險因子診斷及災害預防等技術與系統之研發、相關資料庫之建立、及推廣和教育。</li>
+                        <li>提昇火災預防及調查專業人員之技術，並輔導會員取得國際證照。</li>
+                        <li>維護會員合法權益、端正會員職業道德與倫理、促進會員間之合作。</li>
+                        <li>關懷社會並維護社會公理正義。</li>
+                    </ol>
+                </div><!-- Col end -->
+            </div><!--/ Content row end -->
+        </div><!--/ Container end -->
+    </div><!--/ Container end -->
+</section><!-- Facts end -->
+<!-- Partners start -->
+<section id="partners-area" class="partners-area">
+    <div class="container">
+
+        <div class="row">
+            <div id="partners-carousel" class="col-sm-12 owl-carousel owl-theme text-center partners">
+                <figure class="item partner-logo">
+                    <a href="#">
+                        <img class="img-responsive" src="~/Theme/Images/partner1.jpg" alt="client">
+                    </a>
+                </figure>
+
+                <figure class="item partner-logo">
+                    <a href="#">
+                        <img class="img-responsive" src="~/Theme/Images/partner2.jpg" alt="client">
+                    </a>
+                </figure>
+
+                <figure class="item partner-logo">
+                    <a href="#">
+                        <img class="img-responsive" src="~/Theme/Images/partner3.jpg" alt="client">
+                    </a>
+                </figure>
+
+                <figure class="item partner-logo">
+                    <a href="#">
+                        <img class="img-responsive" src="~/Theme/Images/partner4.jpg" alt="client">
+                    </a>
+                </figure>
+
+                <figure class="item partner-logo">
+                    <a href="#">
+                        <img class="img-responsive" src="~/Theme/Images/partner5.jpg" alt="client">
+                    </a>
+                </figure>
+
+                <figure class="item partner-logo">
+                    <a href="#">
+                        <img class="img-responsive" src="~/Theme/Images/partner.jpg" alt="client">
+                    </a>
+                </figure>
+
+                <figure class="item partner-logo">
+                    <a href="#">
+                        <img class="img-responsive" src="~/Theme/Images/partner2.jpg" alt="client">
+                    </a>
+                </figure>
+
+                <figure class="item partner-logo">
+                    <a href="#">
+                        <img class="img-responsive" src="~/Theme/Images/partner3.jpg" alt="client">
+                    </a>
+                </figure>
+
+                <figure class="item partner-logo">
+                    <a href="#">
+                        <img class="img-responsive" src="~/Theme/Images/partner4.jpg" alt="client">
+                    </a>
+                </figure>
+
+                <figure class="item partner-logo">
+                    <a href="#">
+                        <img class="img-responsive" src="~/Theme/Images/partner5.jpg" alt="client">
+                    </a>
+                </figure>
+
+            </div><!--/ Owl carousel end -->
+
+        </div><!--/ Content row end -->
+    </div><!--/ Container end -->
+</section><!--/ Partners end -->

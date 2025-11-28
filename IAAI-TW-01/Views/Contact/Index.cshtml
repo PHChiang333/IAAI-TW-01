@@ -1,0 +1,182 @@
+﻿@model IAAI_TW_01.Models.Dto.ContactSendDto
+
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+<section id="main-container" class="main-container">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                <div class="sidebar sidebar-right">
+                    <div class="widget">
+                        <h2 class="widget-title"><i class="fa fa-folder-open-o">&nbsp;</i>聯絡我們</h2>
+                        <ul class="arrow nav nav-tabs nav-stacked">
+                            <li class="active"><a href="#">聯絡我們</a></li>
+                        </ul>
+                    </div>
+                    <!-- Categories end -->
+                </div>
+                <!-- Sidebar end -->
+            </div>
+            <!-- Sidebar Col end -->
+            <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+                <h2 class="page-title">聯絡我們 </h2>
+                <hr class="botmargin-min">
+                <!-- 內容開始 -->
+
+                @using (Html.BeginForm("SendContact", "Contact", FormMethod.Post, new { @class = "form-horizontal", enctype = "multipart/form-data" }))
+                {
+                    @Html.AntiForgeryToken()
+
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">姓　名：</label>
+                        <div class="col-sm-7">
+
+                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", placeholder = "請輸入姓名", required = "required" } })
+                            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-sm-3">
+                            <span class="alertred"><i class="fa fa-exclamation-circle"></i> 姓名必填</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">性　別：</label>
+                        <div class="col-sm-7">
+                            <label class="checkbox-inline checkbox01">
+
+                                @Html.RadioButtonFor(model => model.Gender, "男", new { @class = "radiostyle01", required = "required" }) 男
+                            </label>
+                            <label class="checkbox-inline checkbox01">
+
+                                @Html.RadioButtonFor(model => model.Gender, "女", new { @class = "radiostyle01", required = "required" }) 女
+                            </label>
+                            <label class="checkbox-inline checkbox01">
+                                @*<input class="radiostyle01" type="radio" name="Gender" value="其他" required /> 其他*@
+                                @Html.RadioButtonFor(model => model.Gender, "其他", new { @class = "radiostyle01", required = "required" }) 其他
+                            </label>
+                        </div>
+                        <div class="col-sm-3">
+                            <span class="alertred"><i class="fa fa-exclamation-circle"></i> 性別必填</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">聯絡電話：</label>
+                        <div class="col-sm-7">
+
+                            @Html.EditorFor(model => model.Tel, new { htmlAttributes = new { @class = "form-control", placeholder = "請輸入聯絡電話", required = "required", type = "tel", pattern = "^[0-9]{8,15}$" } })
+                            @Html.ValidationMessageFor(model => model.Tel, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-sm-3">
+                            <span class="alertred"><i class="fa fa-exclamation-circle"></i> 聯絡電話必填</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">E-mail：</label>
+                        <div class="col-sm-7">
+
+                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", placeholder = "請輸入E-mail", required = "required", type = "email" } })
+                            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-sm-3">
+                            <span class="alertred"><i class="fa fa-exclamation-circle"></i> E-mail必填</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">詢問內容：</label>
+                        <div class="col-sm-10">
+
+                            @Html.TextAreaFor(model => model.Content, new { @class = "form-control form-control-message", placeholder = "請輸入詢問內容", rows = "10", required = "required" })
+                            @Html.ValidationMessageFor(model => model.Content, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">驗證碼：</label>
+                        <div class="col-sm-3">
+                            <div class="g-recaptcha" data-sitekey="@System.Configuration.ConfigurationManager.AppSettings["SiteKey"]"></div>
+
+                        </div>
+                        <div class="col-sm-4">
+                            <img src="images/test.jpg" alt="">
+                        </div>
+                        <div class="col-sm-3">
+                            <span class="alertred"><i class="fa fa-exclamation-circle"></i> 驗證碼必填</span>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+
+                            <input type="submit" value="送 出" class="btn btn-primary solid blank" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <p class="@ViewBag.ErrorMessageClass">@ViewBag.ErrorMessage</p>
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            @if (TempData["Success"] != null)
+                            {
+                                <div style="color: green;">
+                                    @TempData["Success"]
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+
+
+                }
+
+
+                <div class="tags-area clearfix">
+                    <div class="share-items pull-right">
+                        <ul class="post-social-icons unstyled">
+                            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                            <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+            <!-- Content Col end -->
+            <!-- 內容結束 -->
+        </div>
+        <!-- Main row end -->
+    </div>
+    <!-- Conatiner end -->
+</section>
+
+@section Scripts {
+    @*表單驗證用*@
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(function () {
+            // 當表單內任何 input blur(失焦)時，馬上驗證那個欄位
+            $('form').on('blur', 'input, textarea', function () {
+                $(this).valid(); // 呼叫 jQuery Validation 的驗證方法
+            });
+
+            // 送出前檢查全部欄位
+            $('form').on('submit', function (e) {
+                if (!$(this).valid()) {
+                    e.preventDefault(); // 防止表單送出
+                    alert('請確認表單後再送出！');
+                }
+            });
+        });
+    </script>
+    <!-- 加載 Google reCAPTCHA 的JS -->
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+}
