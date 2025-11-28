@@ -1,0 +1,261 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- Basic Page Needs
+    ================================================== -->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <title>國際縱火調查人員協會臺灣分會</title>
+
+    <!-- Mobile Specific Metas
+    ================================================== -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!-- Favicons
+    ================================================== -->
+    <link rel="shortcut icon" href="~/Theme/images/favicon.ico" type="image/x-icon" />
+
+    <!-- CSS
+    ================================================== -->
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="~/Theme/css/bootstrap.min.css">
+
+    <!-- Template styles-->
+    <link rel="stylesheet" href="~/Theme/css/style.css">
+    <!-- Responsive styles-->
+    <link rel="stylesheet" href="~/Theme/css/responsive.css">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="~/Theme/css/font-awesome.min.css">
+    <!-- Animation -->
+    <link rel="stylesheet" href="~/Theme/css/animate.css">
+    <!-- Owl Carousel -->
+    <link rel="stylesheet" href="~/Theme/css/owl.carousel.css">
+    <link rel="stylesheet" href="~/Theme/css/owl.theme.css">
+    <!-- Colorbox -->
+    <link rel="stylesheet" href="~/Theme/css/colorbox.css">
+
+    <style>
+        .respon {
+            margin: 20px auto;
+            display: inline-block;
+            padding: 3px 8px;
+            background: #b2b2b2;
+            color: white;
+            border-radius: 2px;
+        }
+    </style>
+
+
+
+
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
+    <!--[if lt IE 9]>
+      <script src="js/html5shiv.js"></script>
+      <script src="js/respond.min.js"></script>
+    <![endif]-->
+    @*For CKE 4*@
+    @*<script src="@Url.Content("~/ckeditor_4.22.1_standard/ckeditor/ckeditor.js")"></script>*@
+    <script src="@Url.Content("~/ckeditor_4.22.1_full/ckeditor/ckeditor.js")"></script>
+    @RenderSection("Head", required: false)
+</head>
+
+
+
+<body>
+
+    <div class="body-inner">
+
+        <!-- Header start -->
+        <header id="header" class="header-solid">
+            <div class="container">
+                <div class="row">
+                    <div class="logo col-md-6 col-sm-7 col-xs-12 ">
+                        <a href="@Url.Action("Index", "Home")">
+                            <img src="~/Theme/images/logo.png" alt="國際縱火調查人員協會臺灣分會" title="國際縱火調查人員協會臺灣分會">
+                        </a>
+                    </div><!-- logo end -->
+
+                    <div class="col-md-6 col-sm-5 col-xs-12 header-right hidden-xs">
+
+                        <ul class="top-info">
+                            <li>
+                                <div class="info-box">
+                                    <a href="#" title="粉絲專頁" target="_blank">
+                                        <i class="fa fa-facebook">&nbsp;</i>
+                                        <div class="info-box-content">
+                                            <p class="info-box-title">粉絲專頁</p>
+                                        </div>
+                                    </a>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="info-box">
+                                    <a href="english/" title="English">
+                                        <i class="fa fa-globe">&nbsp;</i>
+                                        <div class="info-box-content">
+                                            <p class="info-box-title">English</p>
+                                        </div>
+                                    </a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div><!-- header right end -->
+                </div><!-- Row end -->
+            </div><!-- Container end -->
+        </header><!--/ Header end -->
+
+        <nav class="site-navigation navigation">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="site-nav-inner">
+                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+
+                            <div class="collapse navbar-collapse navbar-responsive-collapse">
+
+                                <ul class="nav navbar-nav">
+                                    <li class="dropdown active">
+                                        <a href="@Url.Action("Index", "About")" class="dropdown-toggle" data-toggle="dropdown" title="關於我們">關於我們 <i class="fa fa-angle-down"></i></a>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li><a href="@Url.Action("Index", "About")">關於我們</a></li>
+                                            <li><a href="@Url.Action("Supervisors", "About")">組織架構</a></li>
+                                            <li><a href="@Url.Action("OrgHistories", "About")">沿革</a></li>
+                                            <li><a href="@Url.Action("Experts", "About")">專家介紹</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="dropdown">
+                                        <a href="@Url.Action("Index", "News")" class="dropdown-toggle" data-toggle="dropdown" title="訊息發佈">訊息發佈 <i class="fa fa-angle-down"></i></a>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li><a href="@Url.Action("Index", "News")">最新消息</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="dropdown">
+                                        <a href="@Url.Action("Member_db", "Member")" class="dropdown-toggle" data-toggle="dropdown" title="會員專區">會員專區 <i class="fa fa-angle-down"></i></a>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li><a href="@Url.Action("Member_login", "Member")">會員登入</a></li>
+                                            <li><a href="@Url.Action("Member_reg", "Member")">會員註冊</a></li>
+                                            <li><a href="@Url.Action("Member_db", "Member")">討論區</a></li>
+                                            @*<li><a href="@Url.Action("Member_dl", "Member")">檔案下載</a></li>*@
+                                        </ul>
+                                    </li>
+                                    <li class="dropdown">
+                                        <a href="@Url.Action("Index", "Bussiness")" class="dropdown-toggle" data-toggle="dropdown" title="協會業務">協會業務 <i class="fa fa-angle-down"></i></a>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li><a href="@Url.Action("BussinessServices", "Bussiness")">協會業務</a></li>
+                                            <li><a href="@Url.Action("BussinessTrainings", "Bussiness")">訓練、認證、發照</a></li>
+                                            <li><a href="@Url.Action("BussinessConsults", "Bussiness")">諮詢、顧問</a></li>
+                                            <li><a href="@Url.Action("BussinessSurveys", "Bussiness")">縱火調查</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="dropdown">
+                                        <a href="@Url.Action("Index", "Knowledge")" class="dropdown-toggle" data-toggle="dropdown" title="知識庫">知識庫 <i class="fa fa-angle-down"></i></a>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li><a href="@Url.Action("Index", "Knowledge")">知識庫下載</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="dropdown">
+                                        <a href="@Url.Action("Index", "Calender")" class="dropdown-toggle" data-toggle="dropdown" title="行事曆">行事曆 <i class="fa fa-angle-down"></i></a>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li><a href="@Url.Action("Index", "Calender")">協會行事曆</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="dropdown">
+                                        <a href="@Url.Action("Index", "Contact")" class="dropdown-toggle" data-toggle="dropdown" title="聯絡我們">聯絡我們 <i class="fa fa-angle-down"></i></a>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li><a href="@Url.Action("Index", "Contact")">聯絡我們</a></li>
+                                        </ul>
+                                    </li>
+                                </ul><!--/ Nav ul end -->
+
+                            </div><!--/ Collapse end -->
+
+                        </div><!-- Site Navbar inner end -->
+
+
+                    </div><!--/ Col end -->
+                </div><!--/ Row end -->
+            </div><!--/ Container end -->
+        </nav><!--/ Navigation end -->
+        @*子頁面 start---------------------------------------------------------------------------------------------*@
+
+        @RenderBody()
+
+        @*子頁面 end------------------------------------------------------------------------------------------------*@
+
+
+
+        <!-- Footer start -->
+        <footer id="footer" class="footer">
+            <div class="container">
+
+                <div class="row copyright">
+                    <div class="col-xs-12 col-sm-7">
+                        <div class="copyright-info">
+                            <span>
+                                國際縱火調查人員協會臺灣分會版權所有<br>
+                                Copyright © 2016 International Association of Arson Investigators Taiwan Chapter. All Rights Reserved.
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-4 col-md-push-1">
+
+                        <div class="footer-menu">
+                            <a class="btn btn-dark" href="#" title="財產權宣告">財產權宣告</a>
+                        </div>
+                    </div>
+                </div><!-- Copyright end -->
+
+                <div id="back-to-top" data-spy="affix" data-offset-top="10" class="back-to-top affix">
+                    <button class="btn btn-primary" title="Back to Top">
+                        <i class="fa fa-angle-double-up"></i>
+                    </button>
+                </div>
+
+            </div><!--/ Container end -->
+        </footer><!-- Footer end -->
+        <!-- Javascript Files
+    ================================================== -->
+        <!-- initialize jQuery Library -->
+        <script type="text/javascript" src="~/Theme/js/jquery.js"></script>
+        <!-- Bootstrap jQuery -->
+        <script type="text/javascript" src="~/Theme/js/bootstrap.min.js"></script>
+        <!-- Owl Carousel -->
+        <script type="text/javascript" src="~/Theme/js/owl.carousel.min.js"></script>
+        <!-- Counter -->
+        <script type="text/javascript" src="~/Theme/js/jquery.counterup.min.js"></script>
+        <!-- Waypoints -->
+        <script type="text/javascript" src="~/Theme/js/waypoints.min.js"></script>
+        <!-- Color box -->
+        <script type="text/javascript" src="~/Theme/js/jquery.colorbox.js"></script>
+        <!-- Isotope -->
+        <script type="text/javascript" src="~/Theme/js/isotope.js"></script>
+        <script type="text/javascript" src="~/Theme/js/ini.isotope.js"></script>
+        @{
+
+            <!-- Google Map API Key Source -->
+            @*<script src="http://maps.google.com/maps/api/js?sensor=false"></script>*@
+            <script src="https://maps.googleapis.com/maps/api/js?key=@System.Configuration.ConfigurationManager.AppSettings["gmapSiteKey"]"></script>
+
+            <!-- For Google Map -->
+            <!-- Doc http://www.mkyong.com/google-maps/google-maps-api-hello-world-example/ -->
+            <script type="text/javascript" src="~/Theme/js/gmap3.min.js"></script>
+            <!-- Template custom -->
+            <script type="text/javascript" src="~/Theme/js/custom.js"></script>
+        }
+        @*CKE*@
+        <script src="~/ckeditor_4.22.1_full/ckeditor/ckeditor.js"></script>
+
+        @RenderSection("Scripts", required: false)
+
+    </div><!-- Body inner end -->
+
+</body>
+</html>

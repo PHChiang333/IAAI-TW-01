@@ -1,0 +1,122 @@
+﻿@model IAAI_TW_01.Models.News
+
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>最新消息</h2>
+<h3>最新消息</h3>
+
+<div class="content-box-large">
+    <div class="panel-heading">
+        <h4>編輯項目</h4>
+    </div>
+    <div class="panel-body">
+
+        @using (Html.BeginForm("Edit", "News", new { id = Model.Id }, FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.Id)
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Content, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextAreaFor(model => model.Content, new { @class = "form-control", name = "Content", id = "editor1", rows = "5", cols = "80" })
+                    @Html.ValidationMessageFor(model => model.Content, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.CoverPath, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <img id="existedCover" src="@Html.DisplayFor(model => model.CoverPath)" alt="@Html.DisplayFor(model => model.CoverName)" style="max-width: 100px; max-height:100px" />
+                    <br />
+                    <label for="file">選擇照片：</label>
+                    <input type="file" name="CoverFile" id="coverInput" accept="image/*" />
+                    <img id="previewCover" src=")" alt="Cover預覽" style="max-width: 100px; display: none;" />
+                    <p>@ViewBag.ErrorFile</p>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Save" class="btn btn-default" />
+                </div>
+            </div>
+        }
+    </div>
+
+    <div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+
+
+</div>
+
+
+@section Scripts {
+    @*CKE*@
+    <script>
+        $(function () {
+            if (typeof CKEDITOR !== 'undefined') {
+                CKEDITOR.replace('editor1', {
+                    toolbar: [
+                        { name: 'document', items: ['Source', '-', 'Save', 'NewPage', 'Preview', 'Print', '-', 'Templates'] },
+                        { name: 'clipboard', items: ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo'] },
+                        { name: 'editing', items: ['Find', 'Replace', '-', 'SelectAll', '-', 'Scayt'] },
+                        { name: 'forms', items: ['Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'ImageButton', 'HiddenField'] },
+                        '/',
+                        { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat'] },
+                        {
+                            name: 'paragraph', items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv',
+                                '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl', 'Language']
+                        },
+                        { name: 'links', items: ['Link', 'Unlink', 'Anchor'] },
+                        { name: 'insert', items: ['Image', 'Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe'] },
+                        '/',
+                        { name: 'styles', items: ['Styles', 'Format', 'Font', 'FontSize'] },
+                        { name: 'colors', items: ['TextColor', 'BGColor'] },
+                        { name: 'tools', items: ['Maximize', 'ShowBlocks'] },
+                        { name: 'about', items: ['About'] }
+                    ],
+                    extraPlugins: 'colorbutton,colordialog,font',
+                    removeButtons: ''
+                });
+            } else {
+                console.error("CKEditor not loaded");
+            }
+        });
+    </script>
+    @*預覽Cover*@
+    <script>
+        document.getElementById("coverInput").addEventListener("change", function (event) {
+            var file = event.target.files[0];
+
+            if (file && file.type.startsWith("image/")) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    var preview = document.getElementById("previewCover");
+                    preview.src = e.target.result;
+                    preview.style.display = "block";
+                };
+
+                reader.readAsDataURL(file);
+            } else {
+                alert("請選擇圖片格式檔案");
+            }
+        });
+    </script>
+}

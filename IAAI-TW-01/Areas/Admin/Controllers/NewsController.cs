@@ -1,0 +1,347 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Web;
+using System.Web.Mvc;
+using IAAI_TW_01.Areas.Admin.Data;
+using IAAI_TW_01.Filter;
+using IAAI_TW_01.Models;
+//Pagnation
+using MvcPaging;
+
+namespace IAAI_TW_01.Areas.Admin.Controllers
+{
+    [PermissionFilter]
+    public class NewsController : Controller
+    {
+        private DBModel db = new DBModel();
+
+        private const int DefaultPageSize = 10;
+
+
+
+        // GET: Admin/News
+        public ActionResult Index(int? page, string keyword)
+        {
+            //現在第幾頁(當前頁面的索引值)
+            int currentPageIndex = page.HasValue ? page.Value - 1 : 0;
+
+            //如果沒有關鍵字，則顯示所有資料
+            if (string.IsNullOrEmpty(keyword))
+            {
+                ViewBag.Count = db.News.Count();
+                //返回結果.ToPageList(現在第幾頁,一頁幾筆)
+                return View(db.News.OrderByDescending(p => p.UpdateAt).ToPagedList(currentPageIndex, DefaultPageSize));
+            }
+
+            //總資料筆數
+            ViewBag.Count = db.News.Where(n => n.Title.Contains(keyword)).Count();
+
+
+            //返回結果.ToPageList(現在第幾頁,一頁幾筆)
+            return View(db.News.Where(n => n.Title.Contains(keyword)).OrderByDescending(p => p.CreateAt).ToPagedList(currentPageIndex, DefaultPageSize));
+
+
+            //return View(db.News.ToList());
+        }
+
+        // GET: Admin/News/Details/5
+        public ActionResult Details(int? id)
+        {
+            try
+            {
+                if (id == null)
+                {
+                    //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                    return RedirectToAction("Index");
+                }
+                News news = db.News.Find(id);
+                if (news == null)
+                {
+                    //return HttpNotFound();
+                    return RedirectToAction("Index");
+                }
+                return View(news);
+            }
+            catch (Exception ex)
+            {
+                //TODO 設定失敗Page
+                return RedirectToAction("Index");
+            }
+        }
+
+        // GET: Admin/News/Create
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        // POST: Admin/News/Create
+        // 若要避免過量張貼攻擊，請啟用您要繫結的特定屬性。
+        // 如需詳細資料，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(NewsCreateDto newsCreateDto)
+        {
+            //副檔名限制
+            //圖片
+            string[] allowedExts = { ".jpg", ".png" };
+            //上傳路徑 
+            string relativePath = "/Areas/Admin/Uploads/Expert/";
+            string uploadPath = Server.MapPath("~" + relativePath);
+            List<string> uploadResults = new List<string>();
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    if (newsCreateDto.CoverFile == null || newsCreateDto.CoverFile.ContentLength == 0)
+                    {
+                        ViewBag.ErrorFile = "請確認檔案";
+                        ViewBag.textDanger = "text-danger";
+                        return View(newsCreateDto);
+                    }
+                    else
+                    {
+                        //確認有檔案
+                        //找到副檔名
+                        var fileExt = System.IO.Path.GetExtension(newsCreateDto.CoverFile.FileName).ToLower();
+
+                        //非許可檔案類型，剔除
+                        if (!allowedExts.Contains(fileExt))
+                        {
+                            ViewBag.ErrorFile = "檔案格式錯誤";
+                            ViewBag.textDanger = "text-danger";
+                            return View(newsCreateDto);
+                        }
+                        //確認檔案大小限制 :5MB
+                        else if (newsCreateDto.CoverFile.ContentLength > 5 * 1024 * 1024)
+                        {
+                            ViewBag.ErrorFile = "檔案過大";
+                            return View(newsCreateDto);
+                        }
+
+
+                        //確認檔案名稱(不含副檔名)
+                        string fileNameWithoutExt = Path.GetFileNameWithoutExtension(newsCreateDto.CoverFile.FileName);
+
+                        string selFileRename = fileNameWithoutExt + "_" + DateTime.Now.ToString("yyyyMMddHHmmss") + fileExt;
+                        string selFileFullPath = relativePath + selFileRename;
+                        string selFileFullPathUpload = uploadPath + selFileRename;
+                        newsCreateDto.CoverFile.SaveAs(selFileFullPathUpload);
+
+                        //處理資料庫物件
+                        var AddNews = new News
+                        {
+                            Title = newsCreateDto.Title,
+                            Content = newsCreateDto.Content,
+                            CoverName = selFileRename,
+                            CoverPath = selFileFullPath,
+
+                            CreateAt = DateTime.Now,
+                            UpdateAt = DateTime.Now,
+                            IsDeleted = false,
+                            DeleteAt = null
+                        };
+
+                        db.News.Add(AddNews);
+                        db.SaveChanges();
+                        return Redirect("/Admin/News");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    //TODO Admin/News/Create: 設定失敗Page
+                    return RedirectToAction("Index");
+                }
+
+
+                var addNews = new News
+                {
+                    Title = newsCreateDto.Title,
+                    Content = newsCreateDto.Content,
+                    CoverName = newsCreateDto.CoverName,
+                    CoverPath = newsCreateDto.CoverPath,
+
+                    CreateAt = DateTime.Now,
+                    UpdateAt = DateTime.Now,
+                    IsDeleted = false,
+                    DeleteAt = null
+                };
+
+
+                db.News.Add(addNews);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            return View(newsCreateDto);
+        }
+
+        // GET: Admin/News/Edit/5
+        public ActionResult Edit(int? id)
+        {
+            try
+            {
+
+                if (id == null)
+                {
+                    //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                    return RedirectToAction("Index");
+                }
+                News news = db.News.Find(id);
+                if (news == null)
+                {
+                    //return HttpNotFound();
+                    return RedirectToAction("Index");
+                }
+                return View(news);
+            }
+            catch (Exception ex)
+            {
+                //TODO 設定失敗Page
+                return RedirectToAction("Index");
+            }
+        }
+
+        // POST: Admin/News/Edit/5
+        // 若要避免過量張貼攻擊，請啟用您要繫結的特定屬性。
+        // 如需詳細資料，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(int id, NewsEditDto newsEditDto)
+        {
+            if (id != newsEditDto.Id)
+            {
+                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("Index");
+            }
+
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    //副檔名限制
+                    //圖片
+                    string[] allowedExts = { ".jpg", ".png" };
+                    //上傳路徑 
+                    string relativePath = "/Areas/Admin/Uploads/Expert/";
+                    string uploadPath = Server.MapPath("~" + relativePath);
+                    List<string> uploadResults = new List<string>();
+
+                    var selNews = db.News.Find(id);
+                    selNews.Title = newsEditDto.Title;
+                    selNews.Content = newsEditDto.Content;
+
+                    //照片
+                    if (newsEditDto.CoverFile == null || newsEditDto.CoverFile.ContentLength == 0)
+                    {
+                        //沒有上傳檔案，保留原本的檔案
+                    }
+                    else
+                    {
+                        //確認有檔案
+                        //找到副檔名
+                        var fileExt = System.IO.Path.GetExtension(newsEditDto.CoverFile.FileName).ToLower();
+
+                        //非許可檔案類型，剔除
+                        if (!allowedExts.Contains(fileExt))
+                        {
+                            ViewBag.ErrorFile = "檔案格式錯誤";
+                            return View(newsEditDto);
+                        }
+                        //確認檔案大小限制 :5MB
+                        else if (newsEditDto.CoverFile.ContentLength > 5 * 1024 * 1024)
+                        {
+                            ViewBag.ErrorFile = "檔案過大";
+                            return View(newsEditDto);
+                        }
+
+
+                        //確認檔案名稱(不含副檔名)
+                        string fileNameWithoutExt = Path.GetFileNameWithoutExtension(newsEditDto.CoverFile.FileName);
+
+                        string selFileRename = fileNameWithoutExt + "_" + DateTime.Now.ToString("yyyyMMddHHmmss") + fileExt;
+                        string selFileFullPath = relativePath + selFileRename;
+                        string selFileFullPathUpload = uploadPath + selFileRename;
+                        newsEditDto.CoverFile.SaveAs(selFileFullPathUpload);
+
+                        selNews.CoverName = selFileRename;
+                        selNews.CoverPath = selFileFullPath;
+                    }
+
+                    selNews.UpdateAt = DateTime.Now;
+
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                catch (Exception ex)
+                {
+                    //TODO 設定失敗Page
+                    return RedirectToAction("Index");
+                }
+            }
+            return View(newsEditDto);
+        }
+
+        // GET: Admin/News/Delete/5
+        public ActionResult Delete(int? id)
+        {
+            try
+            {
+                if (id == null)
+                {
+                    //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                    return RedirectToAction("Index");
+                }
+                News news = db.News.Find(id);
+                if (news == null)
+                {
+                    //return HttpNotFound();
+                    return RedirectToAction("Index");
+                }
+                return View(news);
+
+            }
+            catch (Exception ex)
+            {
+                //TODO 設定失敗Page
+                return RedirectToAction("Index");
+            }
+        }
+
+        // POST: Admin/News/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            try
+            {
+                News news = db.News.Find(id);
+                db.News.Remove(news);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+
+            }
+            catch (Exception ex)
+            {
+                //TODO 設定失敗Page
+                return RedirectToAction("Index");
+            }
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+    }
+}

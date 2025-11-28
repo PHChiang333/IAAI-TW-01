@@ -1,0 +1,119 @@
+﻿
+
+@model MvcPaging.IPagedList<IAAI_TW_01.Models.Member>
+@using MvcPaging
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>會員管理</h2>
+<h3>會員管理</h3>
+
+@{ var controllerName = ViewContext.RouteData.Values["controller"].ToString();}
+
+
+<div class="content-box-large">
+    <div class="panel-heading">
+        <h4>列表</h4>
+    </div>
+    <div class="panel-body">
+        <div id="example_wrapper" class="dataTables_wrapper form-inline" role="grid">
+
+
+            <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered dataTable" id="example" aria-describedby="example_info">
+                <thead>
+                    <tr>
+                        <th class="sorting_asc" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending" style="width: 215.778px;">
+                            @* 因為 model 是一個集合，要用.FirstOrDefault()從集合中取得第一項 *@
+                            @Html.DisplayNameFor(model => model.FirstOrDefault().Account)
+                        <th class="sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending">@Html.DisplayNameFor(model => model.FirstOrDefault().MemberInfos.FirstOrDefault().Name)</th>
+                        <th class="sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending">@Html.DisplayNameFor(model => model.FirstOrDefault().MemberInfos.FirstOrDefault().MemberType)</th>
+                        <th class="sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending">@Html.DisplayNameFor(model => model.FirstOrDefault().MemberInfos.FirstOrDefault().Email)</th>
+                        <th class="sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending">@Html.DisplayNameFor(model => model.FirstOrDefault().MemberInfos.FirstOrDefault().IsInternationalMember)</th>
+
+
+
+                        <th class="sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending">@Html.DisplayNameFor(model => model.FirstOrDefault().CreateAt)</th>
+                        <th class="sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending">@Html.DisplayNameFor(model => model.FirstOrDefault().UpdateAt)</th>
+                        <th class="sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" style="width:200px"></th>
+                    </tr>
+
+
+                </thead>
+
+                <tbody role="alert" aria-live="polite" aria-relevant="all">
+                    @{
+                        int rowCnt = 0;
+                        foreach (var item in Model)
+                        {
+                            rowCnt++;
+                            if (rowCnt % 2 == 1)
+                            {
+                                //奇數行
+                                <tr class="gradeA odd">
+                                    <td class="sorting_1">@item.Account</td>
+                                    <td class=" ">@item.MemberInfos.FirstOrDefault().Name</td>
+                                    <td class=" ">@item.MemberInfos.FirstOrDefault().MemberType</td>
+                                    <td class=" ">@item.MemberInfos.FirstOrDefault().Email</td>
+                                    <td class=" ">@item.MemberInfos.FirstOrDefault().IsInternationalMember</td>
+
+                                    <td class=" ">@item.CreateAt</td>
+                                    <td class=" ">@item.UpdateAt</td>
+                                    <td>
+                                        @*@Html.ActionLink("Edit", "Edit", new { id = item.Id }) |*@
+                                        @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                                        @using (Html.BeginForm("Delete", controllerName, new { id = item.Id }, FormMethod.Post, new { @class = "", enctype = "multipart/form-data", style = "display:inline;", onclick = "return confirm('Are you sure you want to delete this item?');" }))
+                                        {
+                                            @Html.AntiForgeryToken()
+                                            <input type="submit" value="Delete" class="btn btn-delelete" />
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                            else
+                            {
+                                //偶數行
+                                <tr class="gradeA even">
+                                    <td class="sorting_1">@item.Account</td>
+                                    <td class=" ">@item.MemberInfos.FirstOrDefault().Name</td>
+                                    <td class=" ">@item.MemberInfos.FirstOrDefault().MemberType</td>
+                                    <td class=" ">@item.MemberInfos.FirstOrDefault().Email</td>
+                                    <td class=" ">@item.MemberInfos.FirstOrDefault().IsInternationalMember</td>
+
+                                    <td class=" ">@item.CreateAt</td>
+                                    <td class=" ">@item.UpdateAt</td>
+                                    <td>
+                                        @*@Html.ActionLink("Edit", "Edit", new { id = item.Id }) |*@
+                                        @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                                        @using (Html.BeginForm("Delete", controllerName, new { id = item.Id }, FormMethod.Post, new { @class = "", enctype = "multipart/form-data", style = "display:inline;", onclick = "return confirm('Are you sure you want to delete this item?');" }))
+                                        {
+                                            @Html.AntiForgeryToken()
+                                            <input type="submit" value="Delete" class="btn btn-delelete" />
+                                        }
+                                    </td>
+                                </tr>
+
+                            }
+                        }
+                    }
+                </tbody>
+            </table>
+            
+            <!--分頁開始-->
+            <div class="pager">
+                <div class="pages">
+                    <div class="pagination">
+                        @Html.Pager(Model.PageSize, Model.PageNumber, Model.TotalItemCount)
+
+                    </div>
+                    <div class="page_boxR"> 資料筆數：@ViewBag.count  　</div>
+                </div>
+            </div>
+            <!--分頁結束-->
+
+
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,308 @@
+﻿@model IAAI_TW_01.Models.Dto.MemberRegDto
+
+
+@{
+    ViewBag.Title = "Member_reg";
+}
+
+<!-- Banner area end -->
+<section id="main-container" class="main-container">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                <div class="sidebar sidebar-right">
+                    <div class="widget">
+                        <h2 class="widget-title"><i class="fa fa-folder-open-o">&nbsp;</i>會員專區</h2>
+                        <ul class="arrow nav nav-tabs nav-stacked">
+                            <li><a href="@Url.Action("Member_db", "Member")">討論區</a></li>
+
+                            <br />
+                            <li><a href="@Url.Action("Member_login", "Member")">會員登入</a></li>
+                            <li class="active"><a href="@Url.Action("Member_reg", "Member")">會員註冊</a></li>
+                            <br />
+                            <li><a href="@Url.Action("Logout", "Member")">會員登出</a></li>
+                        </ul>
+                    </div>
+                    <!-- Categories end -->
+                </div>
+                <!-- Sidebar end -->
+            </div>
+            <!-- Sidebar Col end -->
+            <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+                <h2 class="page-title">會員註冊</h2>
+                <hr class="botmargin-min">
+                <!-- 內容開始 -->
+
+                @using (Html.BeginForm("Member_reg", "Member", FormMethod.Post, new { @class = "form-horizontal", enctype = "multipart/form-data" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">帳　號：</label>
+                        <div class="col-sm-7">
+                            @Html.EditorFor(model => model.Account, new { htmlAttributes = new { @class = "form-control", placeholder = "請輸入帳號" } })
+                            @Html.ValidationMessageFor(model => model.Account, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-sm-3">
+                            <span class="alertred"><i class="fa fa-exclamation-circle"></i> 帳號必填</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">密　碼：</label>
+                        <div class="col-sm-7">
+
+                            @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", placeholder = "請輸入密碼" } })
+                            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-sm-3">
+                            <span class="alertred"><i class="fa fa-exclamation-circle"></i> 密碼必填</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">姓　名：</label>
+                        <div class="col-sm-7">
+                            @Html.EditorFor(model => model.memberRegInfo.Name, new { htmlAttributes = new { @class = "form-control", placeholder = "請輸入姓名" } })
+                            @Html.ValidationMessageFor(model => model.memberRegInfo.Name, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-sm-3">
+                            <span class="alertred"><i class="fa fa-exclamation-circle"></i> 姓名必填</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">性　別：</label>
+                        <div class="col-sm-7">
+                            <label class="checkbox-inline checkbox01">
+
+                                @Html.RadioButtonFor(model => model.memberRegInfo.Gender, "男", new { @class = "radiostyle01", required = "required" }) 男
+                            </label>
+                            <label class="checkbox-inline checkbox01">
+                                @Html.RadioButtonFor(model => model.memberRegInfo.Gender, "女", new { @class = "radiostyle01", required = "required" }) 女
+                            </label>
+                            <label class="checkbox-inline checkbox01">
+                                @Html.RadioButtonFor(model => model.memberRegInfo.Gender, "其他", new { @class = "radiostyle01", required = "required" }) 其他
+                            </label>
+                        </div>
+                        <div class="col-sm-3">
+                            <span class="alertred"><i class="fa fa-exclamation-circle"></i> 性別必填</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">生　日：</label>
+                        <div class="col-sm-7">
+                            @Html.TextBoxFor(model => model.memberRegInfo.Birth, new { @class = "form-control", @type = "date", @placeholder = "請輸入生日" })
+                        </div>
+                        <div class="col-sm-3">
+                            <span class="alertred"><i class="fa fa-exclamation-circle"></i> 生日必填</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">申請類別：</label>
+                        <div class="col-sm-7">
+                            <label class="checkbox-inline checkbox01">
+                                @Html.RadioButtonFor(model => model.memberRegInfo.MemberType, "正式會員", new { @class = "radiostyle01", required = "required" }) 正式會員
+                            </label>
+                            <label class="checkbox-inline checkbox01">
+                                @Html.RadioButtonFor(model => model.memberRegInfo.MemberType, "準會員", new { @class = "radiostyle01", required = "required" }) 準會員
+                            </label>
+                            <label class="checkbox-inline checkbox01">
+                                @Html.RadioButtonFor(model => model.memberRegInfo.MemberType, "個人贊助會員", new { @class = "radiostyle01", required = "required" }) 個人贊助會員
+                            </label>
+                            <label class="checkbox-inline checkbox01">
+                                @Html.RadioButtonFor(model => model.memberRegInfo.MemberType, "學生會員", new { @class = "radiostyle01", required = "required" }) 學生會員
+                            </label>
+                        </div>
+                        <div class="col-sm-3">
+                            <span class="alertred"><i class="fa fa-exclamation-circle"></i> 申請類別必填</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">通訊處：</label>
+                        <div class="col-sm-7">
+                            @Html.EditorFor(model => model.memberRegInfo.ContactAddress, new { htmlAttributes = new { @class = "form-control", placeholder = "請輸入通訊處" } })
+                            @Html.ValidationMessageFor(model => model.memberRegInfo.ContactAddress, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-sm-3">
+                            <span class="alertred"><i class="fa fa-exclamation-circle"></i> 通訊處必填</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">E-mail：</label>
+                        <div class="col-sm-7">
+                            @Html.EditorFor(model => model.memberRegInfo.Email, new { htmlAttributes = new { @class = "form-control", placeholder = "請輸入E-mail" } })
+                            @Html.ValidationMessageFor(model => model.memberRegInfo.Email, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-sm-3">
+                            <span class="alertred"><i class="fa fa-exclamation-circle"></i> E-mail必填</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">國際會籍：</label>
+                        <div class="col-sm-7">
+                            @Html.CheckBoxFor(model => model.memberRegInfo.IsInternationalMember, new { @class = "radiostyle01" }) 為國際縱火調查學會之當年度有效會員，請檢附會員證影本
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">現職單位：</label>
+                        <div class="col-sm-7">
+                            @Html.EditorFor(model => model.memberRegInfo.ServiceAt, new { htmlAttributes = new { @class = "form-control", placeholder = "請輸入現職單位" } })
+                            @Html.ValidationMessageFor(model => model.memberRegInfo.ServiceAt, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-sm-3">
+                            <span class="alertred"><i class="fa fa-exclamation-circle"></i> 現職單位必填</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">職　稱：</label>
+                        <div class="col-sm-7">
+                            @Html.EditorFor(model => model.memberRegInfo.PositionName, new { htmlAttributes = new { @class = "form-control", placeholder = "請輸入職稱" } })
+                            @Html.ValidationMessageFor(model => model.memberRegInfo.PositionName, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-sm-3">
+                            <span class="alertred"><i class="fa fa-exclamation-circle"></i> 職稱必填</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">最高學歷：</label>
+                        <div class="col-sm-7">
+                            @Html.EditorFor(model => model.memberRegInfo.TopLevelEducation, new { htmlAttributes = new { @class = "form-control", placeholder = "請輸入最高學歷" } })
+                            @Html.ValidationMessageFor(model => model.memberRegInfo.TopLevelEducation, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-sm-3">
+                            <span class="alertred"><i class="fa fa-exclamation-circle"></i> 最高學歷必填</span>
+                        </div>
+                    </div>
+                    <div class="boxg">
+                        <h4 class="col-sm-2"><i class="fa fa-briefcase"></i> 服務經歷</h4>
+
+                        <!-- 服務經歷 -->
+
+                        @{
+                            int memberRegServicesCnt = 2;
+                            for (int i = 0; i < memberRegServicesCnt; i++)
+                            {
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">服務單位：</label>
+                                    <div class="col-sm-7">
+                                        @Html.EditorFor(model => model.memberRegServices[i].ServiceAt, new { htmlAttributes = new { @class = "form-control", placeholder = "請輸入服務單位" } })
+                                        @Html.ValidationMessageFor(model => model.memberRegServices[i].ServiceAt, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="col-sm-3">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">職　稱：</label>
+                                    <div class="col-sm-7">
+                                        @Html.EditorFor(model => model.memberRegServices[i].PositionName, new { htmlAttributes = new { @class = "form-control", placeholder = "請輸入職稱" } })
+                                        @Html.ValidationMessageFor(model => model.memberRegServices[i].PositionName, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="col-sm-3">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">起：</label>
+                                    <div class="col-sm-2">
+                                        @Html.EditorFor(model => model.memberRegServices[i].ServicedTimeStartYear, new { htmlAttributes = new { @class = "form-control", placeholder = "年", min = "1800", max = "2050" } })
+                                        @Html.ValidationMessageFor(model => model.memberRegServices[i].ServicedTimeStartYear, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        @Html.EditorFor(model => model.memberRegServices[i].ServicedTimeStartMonth, new { htmlAttributes = new { @class = "form-control", placeholder = "月", min = "1", max = "12" } })
+                                        @Html.ValidationMessageFor(model => model.memberRegServices[i].ServicedTimeStartMonth, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">迄：</label>
+                                    <div class="col-sm-2">
+                                        @Html.EditorFor(model => model.memberRegServices[i].ServicedTimeEndYear, new { htmlAttributes = new { @class = "form-control", placeholder = "年", min = "1800", max = "2050" } })
+                                        @Html.ValidationMessageFor(model => model.memberRegServices[i].ServicedTimeEndYear, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        @Html.EditorFor(model => model.memberRegServices[i].ServicedTimeEndMonth, new { htmlAttributes = new { @class = "form-control", placeholder = "月", min = "1", max = "12" } })
+                                        @Html.ValidationMessageFor(model => model.memberRegServices[i].ServicedTimeEndMonth, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            }
+                        }
+
+
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">相關年資合計：</label>
+                        <div class="col-sm-2">
+                            @Html.EditorFor(model => model.memberRegInfo.RelativeServicedTimeYear, new { htmlAttributes = new { @class = "form-control", placeholder = "年", min = "0", max = "99" } })
+                            @Html.ValidationMessageFor(model => model.memberRegInfo.RelativeServicedTimeYear, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-sm-2">
+                            @Html.EditorFor(model => model.memberRegInfo.RelativeServicedTimeMonth, new { htmlAttributes = new { @class = "form-control", placeholder = "月", min = "1", max = "12" } })
+                            @Html.ValidationMessageFor(model => model.memberRegInfo.RelativeServicedTimeMonth, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-sm-3">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">驗證碼：</label>
+                        <div class="col-sm-3">
+                            <div class="g-recaptcha" data-sitekey="@System.Configuration.ConfigurationManager.AppSettings["SiteKey"]"></div>
+                        </div>
+                        <div class="col-sm-4">
+                            <img src="images/test.jpg" alt="">
+                        </div>
+                        <div class="col-sm-3">
+                            <span class="alertred"><i class="fa fa-exclamation-circle"></i> 驗證碼必填</span>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button class="btn btn-primary solid blank" type="submit">註 冊</button>
+                        </div>
+                        <div>
+                            <p class="ViewBag.ErrorMessageClass">@ViewBag.ErrorMessage</p>
+                            <p>@Html.ValidationSummary(true, "", new { @class = "text-danger" })</p>
+                        </div>
+                    </div>
+                }
+
+
+                <div class="tags-area clearfix">
+                    <div class="share-items pull-right">
+                        <ul class="post-social-icons unstyled">
+                            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                            <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- Content Col end -->
+            <!-- 內容結束 -->
+        </div>
+        <!-- Main row end -->
+    </div>
+    <!-- Conatiner end -->
+</section>
+
+@section Scripts {
+    @*表單驗證用*@
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(function () {
+            // 當表單內任何 input blur(失焦)時，馬上驗證那個欄位
+            $('form').on('blur', 'input, textarea', function () {
+                $(this).valid(); // 呼叫 jQuery Validation 的驗證方法
+            });
+
+            // 送出前檢查全部欄位
+            $('form').on('submit', function (e) {
+                if (!$(this).valid()) {
+                    e.preventDefault(); // 防止表單送出
+                    alert('請確認表單後再送出！');
+                }
+            });
+        });
+    </script>
+    <!-- 加載 Google reCAPTCHA 的JS -->
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+}

@@ -1,0 +1,113 @@
+﻿@model IAAI_TW_01.Models.AdminMember
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+
+<h2>權限管理</h2>
+<h4>管理員編輯</h4>
+
+@{ var controllerName = ViewContext.RouteData.Values["controller"].ToString();}
+
+<div class="content-box-large">
+    <div class="panel-heading">
+        <h4>編輯項目</h4>
+    </div>
+    <div class="panel-body">
+
+        @using (Html.BeginForm("Edit", controllerName, new { id = Model.Id }, FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.Id)
+
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Account, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @*@Html.EditorFor(model => model.Account, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Account, "", new { @class = "text-danger" })*@
+                    @Html.DisplayFor(model => model.Account, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.HiddenFor(model => model.Account, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+
+
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.IsTopAccess, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <div class="checkbox">
+                        @Html.EditorFor(model => model.IsTopAccess)
+                        @Html.ValidationMessageFor(model => model.IsTopAccess, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.NewPermission, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <div class="treeView">
+                        @ViewBag.TreeView
+                    </div>
+                </div>
+            </div>
+            @Html.HiddenFor(model => model.NewPermission)
+
+            <div class="form-group">
+                <label class="control-label col-md-2">請輸入密碼進行驗證</label>
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Save" class="btn btn-default" />
+                </div>
+            </div>
+        }
+    </div>
+
+    <div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+
+
+</div>
+
+
+
+
+
+@*--------------------------*@
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/dist/tree.min.js"></script>
+    <script>
+        // prettier-ignore
+        let data = @Html.Raw(ViewBag.TreeView);
+
+        let tree = new Tree('.treeView', {
+            //data: [{ id: '-1', text: 'root', children: data }],
+            data: data,
+            closeDepth: 5,
+            loaded: function () {
+                this.values = @Html.Raw(Json.Encode(Model.NewPermission.Split(',')));  //預設選擇
+
+                console.log(this.selectedNodes);
+                console.log(this.values);
+                this.disables = ['A']  //不能選擇者
+            },
+            onChange: function () {
+                console.log(this.values);
+                $("#NewPermission").val(this.values)
+            }
+        })
+    </script>
+}

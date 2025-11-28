@@ -1,0 +1,89 @@
+﻿@model MvcPaging.IPagedList<IAAI_TW_01.Models.Knowlodge>
+@using MvcPaging
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<div id="banner-area" class="banner-area" style="background-image: url(/Theme/Images/banner-bg.jpg)">
+    <!-- Subpage title start -->
+    <div class="banner-text text-right">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <ul class="breadcrumb">
+                        <li>首頁</li>
+                        <li>知識庫</li>
+                        <li><a href="#"> 知識庫下載</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Subpage title end -->
+</div>
+<!-- Banner area end -->
+<section id="main-container" class="main-container">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                <div class="sidebar sidebar-right">
+                    <div class="widget">
+                        <h2 class="widget-title"><i class="fa fa-folder-open-o">&nbsp;</i>知識庫</h2>
+                        <ul class="arrow nav nav-tabs nav-stacked">
+                            <li class="active"><a href="#">知識庫下載</a></li>
+                        </ul>
+                    </div>
+                    <!-- Categories end -->
+                </div>
+                <!-- Sidebar end -->
+            </div>
+            <!-- Sidebar Col end -->
+            <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+                <h2 class="page-title">知識庫下載</h2>
+                <hr class="botmargin-min">
+                <!-- 內容開始 -->
+                <table class="table table-striped career-table download-table">
+
+                    <thead>
+                        <tr>
+                            <th>日期</th>
+                            <th><span class="text-left">標題</span></th>
+                            <th>檔案</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@item.UpdateAt.ToString("yyyy-MM-dd")</td>
+                                    <td><span class="text-left">@item.Title</span></td>
+                                    <td><a href="@item.FilePath" class="btn btn-primary" download="@item.FileName"><i class="fa fa-download"></i> 下載</a></td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+
+                <!--分頁開始-->
+                <div class="pager">
+                    <div class="pages">
+                        <div class="pagination">
+                            @Html.Pager(Model.PageSize, Model.PageNumber, Model.TotalItemCount)
+
+                        </div>
+                        <div class="page_boxR"> 資料筆數：@ViewBag.count  　</div>
+                    </div>
+                </div>
+                <!--分頁結束-->
+
+            </div>
+            <!-- Content Col end -->
+            <!-- 內容結束 -->
+        </div>
+        <!-- Main row end -->
+    </div>
+    <!-- Conatiner end -->
+</section>
+

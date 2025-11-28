@@ -1,0 +1,73 @@
+﻿@model IEnumerable<IAAI_TW_01.Models.OrgHistory>
+
+
+@{
+    ViewBag.Title = "OrgHistories";
+}
+
+<h2>OrgHistories</h2>
+
+<section id="main-container" class="main-container">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+
+                <div class="sidebar sidebar-right">
+                    <div class="widget">
+                        <h2 class="widget-title"><i class="fa fa-folder-open-o">&nbsp;</i>關於我們</h2>
+                        <ul class="arrow nav nav-tabs nav-stacked">
+
+                            <li><a href="@Url.Action("Index", "About")">關於我們</a></li>
+                            <li><a href="@Url.Action("Supervisors", "About")">組織架構</a></li>
+                            <li class="active"><a href="@Url.Action("OrgHistories", "About")">沿革</a></li>
+                            <li><a href="@Url.Action("Experts", "About")">專家介紹</a></li>
+                        </ul>
+                    </div><!-- Categories end -->
+
+                </div><!-- Sidebar end -->
+            </div><!-- Sidebar Col end -->
+
+            <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+
+                <h2 class="page-title">協會介紹</h2>
+                <hr class="botmargin-min">
+
+                <!-- 內容開始 -->
+
+                @{
+                    if (Model.Where(i => i.IsTop == true).FirstOrDefault().Content != null)
+                    {
+                        @Html.Raw(Model.Where(i => i.IsTop == true).OrderByDescending(i => i.UpdateAt).FirstOrDefault().Content)
+
+                    }
+                    else
+                    {
+                        @Html.Raw(Model.OrderByDescending(i => i.UpdateAt).FirstOrDefault().Content)
+                    }
+                }
+
+
+
+
+                <!-- Content row 1 end -->
+                <!-- 內容結束 -->
+
+                <div class="tags-area clearfix">
+
+                    <div class="share-items pull-right">
+                        <ul class="post-social-icons unstyled">
+                            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                            <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div><!-- Content Col end -->
+
+
+        </div><!-- Main row end -->
+
+    </div><!-- Conatiner end -->
+</section><!-- Main container end -->
